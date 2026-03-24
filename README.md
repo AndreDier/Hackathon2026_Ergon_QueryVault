@@ -1,139 +1,157 @@
-# QueryVault
-### University of Mississippi Hackathon 2026 — Ergon Challenge
+# QueryVault — Ergon Hackathon Challenge 2026
 
-> A centralized, searchable library of reusable SOQL queries built on Salesforce for Ergon, developed in 24 hours by a team of 4.
-
----
-
-## About the Hackathon
-
-This project was built during the **University of Mississippi Hackathon 2026**, a 24-hour event in which our team tackled the **Ergon QueryVault Challenge**, sponsored by **Ergon**, a Mississippi-based energy and specialty chemicals company. Our team of four was tasked with solving a real internal pain point: Ergon's developers, admins, and QA engineers had no centralized place to store and reuse their most valuable SOQL queries — they were living in a spreadsheet.
-
-We had no prior experience with Salesforce development, Lightning Web Components (LWC), or Apex going into this challenge.
+> **1st Place** — University of Mississippi Hackathon 2026 · Ergon QueryVault Challenge
+> 
+> A 24-hour hackathon build by a team of 4.
 
 ---
 
-## The Problem
+## What Is QueryVault?
 
-Ergon's team relied on a shared spreadsheet to track frequently used SOQL queries. Finding the right query meant scrolling and using Ctrl+F. There was no validation, no structure, and no easy way to copy and reuse queries safely. The challenge asked us to replace that workflow with a proper application.
+QueryVault is a Salesforce-native application built for **Ergon**, the challenge sponsor, to solve a real internal pain point: their team was managing a growing library of useful SOQL queries in a spreadsheet, relying on Ctrl+F to find what they needed day to day.
+
+QueryVault replaces that workflow with a clean, searchable, centralized library — built entirely on Salesforce using **Lightning Web Components (LWC)** and **Apex** — where queries can be created, validated, browsed, and reused with a single click.
 
 ---
 
-## Our Solution
+## The Challenge
 
-We built **QueryVault** — an LWC-based CRED (Create, Read, Edit, Delete) application embedded in Salesforce that allows users to:
+The hackathon brief asked teams to build a full CRED (Create, Read, Edit, Delete) application on Salesforce that:
 
-- **Browse and search** a library of saved SOQL queries by name, description, or SObject
-- **Create and edit** query records with a structured form UI
-- **Validate SOQL syntax** before saving, with guardrails to prevent unbounded or harmful query execution
-- **Copy queries** to the clipboard with a single button click
-- **Delete records** with a confirmation step to prevent accidental loss
+- Stored reusable SOQL queries tied to Salesforce objects
+- Validated SOQL syntax before saving, with safety guardrails
+- Provided a searchable and filterable library UI
+- Allowed users to copy queries instantly for reuse
+- Was seeded with realistic demo data across multiple Salesforce objects
 
-All queries are stored in a custom Salesforce object (`UsefulQuery__c`) and surfaced through a Lightning Web Component interface built directly into the Salesforce platform.
+We had a little less than **24 hours**, and none of us had ever written a line of Apex or LWC before.
+
+---
+
+## The Team
+
+A team of 4 University of Mississippi students — none of us with prior Salesforce development experience. We used AI tools extensively to generate and iterate on code, then worked to integrate everything into a cohesive, functioning application.
+
+My personal role was **integration and debugging** — figuring out how the AI-generated pieces my teammates contributed fit together architecturally, identifying where things were breaking, and patching the gaps to get a working whole.
 
 ---
 
 ## Tech Stack
 
-| Technology | Purpose |
+| Layer | Technology |
 |---|---|
-| **Salesforce LWC** | Frontend UI components |
-| **Apex** | Backend logic, SOQL validation, data operations |
-| **AgentForce Vibes IDE** | Salesforce development environment |
-| **Salesforce Data Import Wizard** | Seed data loading |
-| **GitHub** | Version control and collaboration |
-
-> **Note:** None of our team members had used LWC, Apex, or Salesforce development tools prior to this hackathon. We leveraged AI-assisted development throughout the process and learned these technologies on the fly during the 24-hour window.
-
----
-
-## Data Model
-
-### `UsefulQuery__c` (Custom Object)
-
-| Field | API Name | Type | Description |
-|---|---|---|---|
-| Name | `Name` | Text | Human-readable query title |
-| SOQL Query | `SOQLField__c` | Long Text Area | The full SOQL query text |
-| Description | `DescriptionField__c` | Long Text Area | Usage notes and context |
-| SObject API Name | `SObjectAPIName__c` | Picklist | The Salesforce object the query targets |
-
-SObject options were populated dynamically from Salesforce schema — no hardcoded object names.
+| Platform | Salesforce |
+| Frontend | Lightning Web Components (LWC) |
+| Backend | Apex (Controllers, SOQL validation) |
+| IDE | Agentforce Vibes (Salesforce's AI-assisted IDE) |
+| Data Model | Custom Object: `UsefulQuery__c` |
+| Deployment | Salesforce Metadata API via IDE |
 
 ---
 
-## What We Built (MVP Checklist)
+## What We Built
 
-- [x] Custom object `UsefulQuery__c` with all required fields
-- [x] LWC library view with search and SObject filtering
-- [x] LWC create/edit form with required field validation
-- [x] Dynamic SObject selection (no freehand API name entry)
-- [x] SOQL syntax validation before save with a dedicated Validate button
-- [x] Safety guardrails on validation (row limits enforced)
-- [x] Full CRED functionality (Create, Read, Edit, Delete)
-- [x] Delete confirmation to prevent accidental deletion
-- [x] Copy-to-clipboard button on query view
-- [x] 10+ seed data records spanning multiple Salesforce objects
-- [x] "How to Use" documentation
-- [ ] Permission sets / role-based access control *(not completed within the time limit)*
+### Data Model
+- Custom object `UsefulQuery__c` with fields for Name, Description, SOQL query text, and SObject API Name
+- SObject API Name stored as a picklist populated dynamically from Salesforce's Schema — no hardcoded object names
+
+### Library UI (Browse + Search)
+- Searchable, filterable datatable listing all saved queries
+- Filter by SObject type
+- Row actions for viewing, editing, and deleting records
+
+### Query Editor (Create + Edit)
+- Form-based editor for creating and updating query records
+- All required fields validated before submission
+- SObject selection via dynamic dropdown — no freehand API name entry
+
+### SOQL Validation
+- Dedicated **Validate** button checks SOQL syntax before a record can be saved
+- Validation is guardrailed: enforces a row limit so no unbounded queries can execute
+- Clear error messaging surfaced to the user on failure
+
+### Full CRED
+- **Create** — New queries added through the LWC editor
+- **Read** — View full query details; one-click **Copy** button for reuse
+- **Edit** — Modify existing records with re-validation on SOQL or SObject changes
+- **Delete** — Confirmation-gated delete to prevent accidental removal
+
+### Seed Data
+- 10+ sample `UsefulQuery__c` records spanning multiple objects (Account, Case, Contact, Contract, etc.)
+- Loaded via Salesforce Data Import Wizard from the provided Excel template
 
 ---
 
-## How to Use
+## What We Didn't Complete
 
-### Finding a Query
+- **Permission Sets (S1):** We did not implement the role-based access control requirement (Viewer vs. Editor permission sets) within the 24-hour window. Everything else from the MVP checklist was delivered.
+
+---
+
+## Repository Structure
+
+```
+/
+├── force-app/
+│   └── main/
+│       └── default/
+│           ├── classes/          # Apex controllers
+│           ├── lwc/              # Lightning Web Components
+│           └── objects/          # Custom object metadata
+├── docs/
+│   ├── CHALLENGE.md              # Full challenge brief
+│   └── RESOURCES.md              # Salesforce learning resources
+└── README.md
+```
+
+---
+
+## How to Use the App
+
+### Finding and Copying a Query
 1. Open the **QueryVault** app from the Salesforce App Launcher.
-2. Browse the query library or use the search bar to filter by name or description.
-3. Use the SObject dropdown to narrow results to a specific Salesforce object.
-4. Click a query row to open its detail view.
+2. Use the search bar to find a query by name or description, or filter by SObject.
+3. Click the row action menu to show all usable actions per query.
+4. Hit the **Copy** button to copy the SOQL text to your clipboard — ready to paste anywhere.
 
-### Copying a Query
-- From the detail view, click the **Copy** button to copy the SOQL text to your clipboard.
-
-### Creating a Query
-1. Click **New Query** from the library view.
-2. Fill in the Name, Description, SObject, and SOQL fields.
-3. Click **Validate** to check your SOQL syntax. You must pass validation before saving.
-4. Click **Save** to store the record.
+### Creating a New Query
+1. Navigate to the top of the page.
+2. Fill in Name, Description, SObject (select from the dropdown), and the SOQL query body.
+3. Click **Validate** to check your SOQL syntax. Fix any errors surfaced.
+4. Once validated, click **Save** to add the query to the library.
 
 ### Editing or Deleting a Query
-- Use the row action buttons in the library table to **Edit** or **Delete** a record.
-- Deletion requires confirmation before the record is removed.
-
-### Validation Notes
-- Validation checks SOQL syntax before allowing a save — invalid queries will be rejected with an error message.
-- Validation is constrained to a safe row limit to prevent performance issues.
-- You cannot save a query until it has been validated successfully.
+- Use the row action menu on any library entry to **Edit** or **Delete**.
+- Delete requires confirmation before the record is removed.
 
 ---
 
 ## Seed Data
 
-Sample records are included and can be re-loaded using the Salesforce Data Import Wizard:
+To re-insert the sample records:
 
 1. Open `salesforce_useful_queries.xlsx`
-2. Go to **Setup → Data Import Wizard → Launch Wizard**
+2. In Salesforce: **Setup → Data Import Wizard → Launch Wizard**
 3. Select **Custom Objects → UsefulQuery__c** → **Add new records**
-4. Map columns as follows and start the import:
-   - `Name` → Name
-   - `Query` → SOQLField__c
-   - `Description` → DescriptionField__c
-   - `SObjectName` → SObjectAPIName__c
+4. Upload the file and map columns:
+   - Name → `Name`
+   - SObjectName → `SObjectAPIName__c`
+   - Query → `SOQLField__c`
+   - Description → `DescriptionField__c`
+5. Click **Start Import**
 
 ---
 
-## Team
+## Reflections
 
-Built by a team of 4 University of Mississippi students in 24 hours at the Ergon Hackathon 2026. We came in with no Salesforce experience and shipped a working application end-to-end.
+This project was a genuine crash course — 24 hours to learn a new platform, two new languages, a new IDE, and ship something functional for a real sponsor. Leaning on AI to accelerate unfamiliar territory was intentional and effective, but the hardest part wasn't generating code: it was understanding how the pieces fit together well enough to debug what was broken and make confident architectural decisions under time pressure.
 
-**Repository:** [github.com/AndreDier/Hackathon2026_Ergon_QueryVault](https://github.com/AndreDier/Hackathon2026_Ergon_QueryVault/blob/main/docs/CHALLENGE.md)
-
----
-
-## Challenge Reference
-
-The full problem statement is available in [`docs/CHALLENGE.md`](./docs/CHALLENGE.md).
+We came in **1st place** for the Ergon QueryVault challenge.
 
 ---
 
-*Built with curiosity, caffeine, and a lot of AI-assisted debugging at Ole Miss — 2026.*
+## Links
+
+- **GitHub Repository:** [https://github.com/AndreDier/Hackathon2026_Ergon_QueryVault](https://github.com/AndreDier/Hackathon2026_Ergon_QueryVault)
+- **Salesforce LWC Docs:** [developer.salesforce.com](https://developer.salesforce.com/docs/platform/lightning-component-reference/guide/components.html)
+- **Apex Reference:** [Apex Reference Docs](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_ref_guide.htm)
